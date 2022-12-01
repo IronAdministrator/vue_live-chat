@@ -1,6 +1,12 @@
 <script setup>
 import useSignup from '@/composables/useSignup';
 import { ref } from 'vue';
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute()
+const router = useRouter()
+
+const emit = defineEmits(['toChat'])
 
 const displayName = ref('');
 const email = ref('');
@@ -9,9 +15,12 @@ const password = ref('');
 const {error, signup} = useSignup()
 
 const handleSubmit = async () => {
-  console.log(displayName.value, email.value, password.value);
   await signup(email.value, password.value, displayName.value)
-  console.log('user signed up');
+  if (!error.value) {
+    console.log('user signed up');
+  }
+  // router.push({name: "ChatroomView"})
+  emit('toChat')
 };
 
 </script>
@@ -27,12 +36,8 @@ const handleSubmit = async () => {
       <button>Sign Up</button>
     </form>
   </div>
-  
 </template>
 
 <style>
-.error {
-  color: lightcoral;
-  font-weight: bold;
-}
+
 </style>
