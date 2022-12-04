@@ -1,14 +1,28 @@
 <script setup>
-
+import Navbar from "@/components/Navbar.vue";
 </script>
 
 <template>
-  <div>
-  <h3>Chatroom</h3>
+  <div class="container">
+    <Navbar />
   </div>
 </template>
 
-
 <style>
-
+nav {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav p {
+  margin: 2px auto;
+  font-size: 16px;
+  color: #444;
+}
+nav p.email {
+  font-size: 14px;
+  color: #999;
+}
 </style>
