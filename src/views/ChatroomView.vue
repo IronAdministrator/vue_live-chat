@@ -3,12 +3,14 @@ import { watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Navbar from "@/components/Navbar.vue";
 import getUser from "@/composables/getUser";
+import NewChatForm from "@/components/NewChatForm.vue";
 
 const route = useRoute();
 const router = useRouter();
 
 const { user } = getUser();
 
+//! all redirect on log out experiment functions (they all work!). Moved redirect after logout to navbar component
 // watch(
 //   () => user.value,
 //   (newValue, oldValue) => {
@@ -31,14 +33,14 @@ const { user } = getUser();
 //     router.push({ name: "WelcomeView" });
 //   }
 // };
+//! all redirect on log out experiment functions (they all work!). Moved redirect after logout to navbar component
 </script>
 
 <template>
   <div class="container">
     <Navbar @toWelcomeView="redirectToWelcomeView" />
+    <NewChatForm />
   </div>
-  <h1>chatroom component</h1>
-  <pre>{{ user }}</pre>
 </template>
 
 <style>
