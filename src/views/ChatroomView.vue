@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import Navbar from "@/components/Navbar.vue";
 import getUser from "@/composables/getUser";
 import NewChatForm from "@/components/NewChatForm.vue";
+import ChatWindow from "@/components/ChatWindow.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -38,7 +39,8 @@ const { user } = getUser();
 
 <template>
   <div class="container">
-    <Navbar @toWelcomeView="redirectToWelcomeView" />
+    <Navbar />
+    <ChatWindow />
     <NewChatForm />
   </div>
 </template>

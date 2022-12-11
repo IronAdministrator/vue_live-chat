@@ -1,19 +1,25 @@
 <script setup>
 import getUser from "@/composables/getUser";
+import fetchService from "@/composables/fetchService";
 import { ref } from "vue";
 import { timestamp } from "@/firebase/config";
 
 const { user } = getUser();
+const { errorAddData, addData } = fetchService("messages");
+
 const message = ref("");
 
 const handleSubmit = async () => {
-  const chat = {
+  const chatMessageInfo = {
     message: message.value,
     name: user.value.displayName,
     createdAt: timestamp(),
   };
-  console.log(chat);
-  message.value = "";
+  console.log(chatMessageInfo);
+  await addData(chatMessageInfo);
+  if (!errorAddData.value) {
+    message.value = "";
+  }
 };
 </script>
 
@@ -24,6 +30,7 @@ const handleSubmit = async () => {
       v-model="message"
       @keypress.enter.prevent="handleSubmit"
     ></textarea>
+    <div class="error">{{ errorAddData }}</div>
   </form>
 </template>
 

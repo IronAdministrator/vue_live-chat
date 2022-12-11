@@ -1,28 +1,28 @@
 <script setup>
-import SignupForm from '@/components/SignupForm.vue';
-import LoginForm from '@/components/LoginForm.vue';
-import { ref } from 'vue';
+import SignupForm from "@/components/SignupForm.vue";
+import LoginForm from "@/components/LoginForm.vue";
+import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 const isLoggedIn = ref(false);
 
 const enterChat = () => {
-  router.push({name: "ChatroomView"})
-}
+  router.push({ name: "ChatroomView" });
+};
 </script>
 
 <template>
   <div class="welcome container">
     <p>WelcomeView</p>
     <div v-if="!isLoggedIn">
-      <SignupForm @toChat="enterChat"/>
+      <SignupForm @toChat="enterChat" />
       <p>Already have an account? <span @click="isLoggedIn = true">Log in</span></p>
     </div>
     <div v-else>
-      <LoginForm @toChat="enterChat"/>
+      <LoginForm @toChat="enterChat" />
       <p>No account yet? <span @click="isLoggedIn = false">Sign up</span></p>
     </div>
   </div>
@@ -51,13 +51,13 @@ const enterChat = () => {
   color: #999;
   margin: 10px auto;
 }
-.welcome span{
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-    font-style: italic;
-  }
-  .welcome button {
-    margin: 20px auto;
-  }
+.welcome span {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: italic;
+}
+.welcome button {
+  margin: 20px auto;
+}
 </style>
