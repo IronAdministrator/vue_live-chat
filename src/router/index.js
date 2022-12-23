@@ -14,11 +14,21 @@ const requireAuth = (to, from, next) => {
   }
 }
 
+const redirectToChat = (to, from, next) => {
+  let user = projectAuth.currentUser
+  if (user) {
+    next({name: "ChatroomView"})
+  } else {
+    next()
+  }
+}
+
 const routes = [
   {
     path: '/',
     name: 'WelcomeView',
-    component: WelcomeView
+    component: WelcomeView,
+    beforeEnter: redirectToChat
   },
   {
     path: '/chatroom',

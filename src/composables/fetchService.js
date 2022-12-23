@@ -1,5 +1,5 @@
 import { projectFirestore } from "@/firebase/config"
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 const fetchService = (url) => {
 
@@ -20,7 +20,9 @@ const fetchService = (url) => {
 
   const fetchRealtimeData = async (url) => {
     let collectionRef = projectFirestore.collection(url).orderBy('createdAt')
-    collectionRef.onSnapshot((snap) => {
+
+    const unsub = collectionRef.onSnapshot((snap) => {
+      console.log('snapshot');
       let res = []
       snap.docs.forEach((doc) => {
         doc.data().createdAt && res.push({...doc.data(), id: doc.id})
@@ -31,6 +33,12 @@ const fetchService = (url) => {
       console.log(err.message);
       fetchedRealtimeData.value = null
       errorFetchedData.value = 'Could not fetch data!'
+    })
+
+    watchEffect((onInvalidate) => {
+      onInvalidate(()=> {
+        unsub()
+      })
     })
   }
 

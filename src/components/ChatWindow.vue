@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted, onUpdated, computed, nextTick } from "vue";
 import fetchService from "@/composables/fetchService";
+import { formatDistanceToNow } from "date-fns";
 
 const {
   fetchedRealtimeData: messages,
@@ -8,17 +9,37 @@ const {
   errorFetchedData,
 } = fetchService();
 
+const messagesContainer = ref(null);
+
 onMounted(() => {
   fetchRealtimeData("messages");
 });
+
+onUpdated(async () => {
+  await nextTick();
+  scrollToBottom();
+});
+
+const formattedMessages = computed(() => {
+  if (messages.value) {
+    return messages.value.map((message) => {
+      let time = formatDistanceToNow(message.createdAt.toDate());
+      return { ...message, createdAt: time };
+    });
+  }
+});
+
+const scrollToBottom = () => {
+  messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+};
 </script>
 
 <template>
   <div class="chat-window">
     <div v-if="errorFetchedData" class="error">{{ errorFetchedData }}</div>
-    <div v-if="messages" class="messages">
-      <div v-for="message in messages" :key="message.id" class="single">
-        <span class="created-at">{{ message.createdAt.toDate() }}</span>
+    <div v-if="messages" class="messages-container" ref="messagesContainer">
+      <div v-for="message in formattedMessages" :key="message.id" class="single">
+        <span class="created-at">{{ message.createdAt }}</span>
         <span class="name">{{ message.name }}</span
         ><span class="message">{{ message.message }}</span>
       </div>
@@ -44,7 +65,7 @@ onMounted(() => {
   font-weight: bold;
   margin-right: 6px;
 }
-.messages {
+.messages-container {
   max-height: 400px;
   overflow: auto;
 }
