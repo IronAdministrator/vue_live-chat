@@ -3,7 +3,7 @@ import WelcomeView from '@/views/WelcomeView.vue'
 import ChatroomView from '@/views/ChatroomView.vue'
 import { projectAuth } from "../firebase/config"
 
-// auth guard function - redirects users who are not signed/logged in
+// auth guard function - redirects users who are NOT signed/logged in
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
   console.log('current user in authGuard is: ', user);
@@ -13,7 +13,7 @@ const requireAuth = (to, from, next) => {
     next()
   }
 }
-
+// auth guard function - redirect to chat if user IS logged in
 const redirectToChat = (to, from, next) => {
   let user = projectAuth.currentUser
   if (user) {
